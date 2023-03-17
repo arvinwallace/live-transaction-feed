@@ -1,12 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import Web3 from 'web3'
 import Head from 'next/head'
+import TransactionGroup from '@/components/TransactionGroup/transactionGroup'
 import usePrice from '@/util/usePrice'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [hashList, setHashList] = useState([])
@@ -18,14 +14,24 @@ export default function Home() {
     subscription.current = web3.eth.subscribe('newBlockHeaders')
     .on("data", function(blockHeader){
       console.log("incoming DATA!", blockHeader)
-      // setHashList(prev => [...prev, blockHeader.hash])
       web3.eth.getBlock(blockHeader.hash).then(block => {
-        // console.log(block.transactions)
+        console.log("BLOCK",block)
+        let transactionGroup = []
         for(let b of block.transactions){
           web3.eth.getTransaction(b).then(res => {
-            setHashList(prev => [res, ...prev])
+            transactionGroup.push(res)
           })
         }
+        const nodeBlock = {
+          transactionGroup,
+          hash: block.hash,
+          number: block.number,
+          size: block.size,
+          timestamp: block.timestamp,
+          gasUsed: block.gasUsed
+        }
+        setHashList(prev => [nodeBlock, ...prev])
+
       })
       // web3.eth.getTransactionFromBlock(blockHeader.hash, 0).then(blockResults => {
       //   web3.eth
@@ -61,13 +67,7 @@ export default function Home() {
           {
             hashList.map(tx => {
               return (
-                <div className='w-full flex justify-between'>
-                  <p className=' w-[30%]'>FROM: {tx.from}</p>
-                  <p className=' w-[30%]'>TO: {tx.to}</p>
-                  <p className=' w-[20%]'>
-                    Value: {(parseFloat(tx.value) / 10 ** 18)} Eth</p>
-                  <p className=' w-[10%]'>USD: ${(Web3.utils.fromWei(tx.value, 'ether') * price).toFixed(2)}</p>
-                </div>
+                <TransactionGroup price={price} group={tx} w3={web3}/>
               )
             })
           }
