@@ -7,8 +7,9 @@ function TransactionGroup({ group, w3, price }) {
 
   return (
     <div className="border-slate-400 mb-20 w-full">
+      {/* Display general block info */}
       <div className="px-10 py-5 bg-slate-200">
-        <div className="flex justify-between py-1">
+        <div className=" overflow-x-scroll flex flex-col lg:flex-row justify-between py-1">
           <h3>Number: {group.number}</h3>
           <h3>Hash: {group.hash}</h3>
           <h3>Transactions: {group.transactionGroup.length}</h3>
@@ -19,9 +20,8 @@ function TransactionGroup({ group, w3, price }) {
           <h3>Gas: {group.gasUsed}</h3>
         </div>
       </div>
-
+      {/* Display Transactions From block (scrollable) */}
       <div className="border min-h-[600px] max-h-[600px] overflow-scroll p-5">
-
         {
           group.transactionGroup.map(tx => {
             if (tx.from === "SERVER FAIL") return (
@@ -33,7 +33,7 @@ function TransactionGroup({ group, w3, price }) {
             // Convert wei to ether
             const converted = w3.utils.fromWei(tx.value, 'ether')
             return (
-              <div className='p-2 w-full flex flex-col xl:flex-row   border bottom-3 justify-between'>
+              <div className='p-2 w-full flex flex-col xl:flex-row border bottom-3 justify-between'>
                 <div className=' w-[30%]'>
                   <p className="font-semibold">FROM:</p>
                   <p className="text-sm">{tx.from}</p>
@@ -42,9 +42,9 @@ function TransactionGroup({ group, w3, price }) {
                   <p className="font-semibold">TO:</p>
                   <p className="text-sm">{tx.to}</p>
                 </div>
-                <p className=' font-semibold w-[20%]'>
+                <p className='md:text-sm lg:text-[1rem] font-semibold lg:w-[20%]'>
                   Value: {converted} Eth</p>
-                <p className=' font-semibold w-[10%]'>USD: ${(converted * price).toFixed(2)}</p>
+                <p className=' font-semibold lg:w-[10%]'>USD: ${(converted * price).toFixed(2)}</p>
               </div>
             )
           })
