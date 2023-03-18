@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const url = process.env.NEXT_PUBLIC_COIN_GECKO
+const url = process.env.COIN_GECKO
 
 const usePrice = () => {
   const [price, setPrice] = useState(null);

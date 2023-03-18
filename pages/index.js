@@ -9,7 +9,7 @@ export default function Home() {
   const [hashList, setHashList] = useState([])
   const {price,error} = usePrice()
 
-  var web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_KEY);
+  var web3 = new Web3(process.env.WEB3_KEY);
   let subscription = useRef()
   useEffect(() => {
     subscription.current = web3.eth.subscribe('newBlockHeaders')
@@ -68,7 +68,7 @@ export default function Home() {
     return (
     <>
       <div className='text-4xl mt-20 ml-10'>CAT IS LISTENING..</div>
-      <div className='text-2xl  ml-32'>FOR THE NEWEST NODE</div>
+      <div className='text-2xl  ml-32'>FOR THE NEWEST BLOCK</div>
       <Cat/>
     </>)
   }

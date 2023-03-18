@@ -36,11 +36,11 @@ function TransactionGroup({ group, w3, price }) {
               <div className='p-2 w-full flex flex-col xl:flex-row   border bottom-3 justify-between'>
                 <div className=' w-[30%]'>
                   <p className="font-semibold">FROM:</p>
-                  <p>{tx.from}</p>
+                  <p className="text-sm">{tx.from}</p>
                 </div>
                 <div className=' w-[30%]'>
                   <p className="font-semibold">TO:</p>
-                  <p>{tx.to}</p>
+                  <p className="text-sm">{tx.to}</p>
                 </div>
                 <p className=' font-semibold w-[20%]'>
                   Value: {converted} Eth</p>
